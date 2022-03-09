@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nutanix-sidecar-debug
+spec:
+  containers:
+    - name: nutanix-sidecar
+      image: quay.io/ccarson/nutanix-sidecar
+      imagePullPolicy: Always
+      securityContext:
+        privileged: true
+        capabilities:
+          add: ["NET_ADMIN", "MKNOD"]
+    - name: debug
+      image: fedora:34
+      command: ["/bin/bash", "-ec", "while :; do echo '.'; sleep 5 ; done"]
+  imagePullSecrets:
+    - name: ccarson-bot-pull-secret
